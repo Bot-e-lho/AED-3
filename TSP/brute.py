@@ -1,7 +1,6 @@
-import os
+import itertools
 import time
-from itertools import permutations
-
+import sys
 
 def carregar_arquivo(caminho_arquivo):
     with open(caminho_arquivo, 'r') as f:
@@ -9,51 +8,53 @@ def carregar_arquivo(caminho_arquivo):
         grafo = [list(map(int, linha.split())) for linha in linhas]
     return grafo
 
+def brute_force_tsp(graph, start_vertex=0):
+    num_vertices = len(graph)
+    vertices = list(range(num_vertices))
+    vertices.remove(start_vertex)
+    
+    min_path_cost = float('inf')
+    min_path = []
 
-def custo_caminho(caminho, grafo):
-    custo = 0
-    for i in range(len(caminho) - 1):
-        custo += grafo[caminho[i]][caminho[i + 1]]
-    custo += grafo[caminho[-1]][caminho[0]]
-    return custo
+    for permutation in itertools.permutations(vertices):
+        current_path_cost = 0
+        k = start_vertex
+        
+        for vertex in permutation:
+            current_path_cost += graph[k][vertex]
+            k = vertex
+        
+        current_path_cost += graph[k][start_vertex]
 
+        if current_path_cost < min_path_cost:
+            min_path_cost = current_path_cost
+            min_path = (start_vertex,) + permutation + (start_vertex,)
 
-def valor_otimo(nome_arquivo):
-    valor = int(nome_arquivo.split('_')[1].split('.')[0])
-    return valor
+    return min_path, min_path_cost
 
+def main_brute(caminho_arquivo):
+    graph = carregar_arquivo(caminho_arquivo)
 
-def forca_bruta_tsp(grafo):
-    num_vertices = len(grafo)
-    todos_caminhos = permutations(range(num_vertices))
-    menor_custo = float('inf')
-    melhor_caminho = None
-    for caminho in todos_caminhos:
-        custo_atual = custo_caminho(caminho, grafo)
-        if custo_atual < menor_custo:
-            menor_custo = custo_atual
-            melhor_caminho = caminho
-    return melhor_caminho, menor_custo
+    start_time = time.time()
+    path, cost = brute_force_tsp(graph)
+    execution_time = time.time() - start_time
 
-
-def resolver_instancia_brute(caminho_arquivo):
-    grafo = carregar_arquivo(caminho_arquivo)
-    valor = valor_otimo(os.path.basename(caminho_arquivo))
-
-    start = time.time()
-    caminho, custo = forca_bruta_tsp(grafo)
-    tempo_execucao = time.time() - start
-
-    print("Arquivo: {}".format(caminho_arquivo))
-    print("Valor Ótimo: {}".format(valor))
     print("Algoritmo de Força Bruta:")
-    print("Caminho: {}".format(caminho))
-    print("Custo: {}".format(custo))
-    print("Tempo de Execução: {:.4f} segundos".format(tempo_execucao))
+    print(f"Caminho: {path}")
+    print(f"Custo Total: {cost}")
+    print(f"Tempo de Execução: {execution_time:.10f} segundos")
+    print(f"Arquivo: {caminho_arquivo}")
 
-    print()
+if __name__ == "__main__":
+    example_files = [
+        'C:\\Users\\migue\\OneDrive\\Área de Trabalho\\AED-3-main\\AED-3-main\\tsp1_253.txt', 
+        'C:\\Users\\migue\\OneDrive\\Área de Trabalho\\AED-3-main\\AED-3-main\\tsp2_1248.txt', 
+        'C:\\Users\\migue\\OneDrive\\Área de Trabalho\\AED-3-main\\AED-3-main\\tsp3_1194.txt', 
+        'C:\\Users\\migue\\OneDrive\\Área de Trabalho\\AED-3-main\\AED-3-main\\tsp4_7013.txt'
+    ]
 
+    sys.setrecursionlimit(10000)
 
-example_files = ['tsp1_253.txt', 'tsp2_1248.txt', 'tsp3_1194.txt', 'tsp4_7013.txt', 'tsp5_27603.txt']
-for file in example_files:
-    resolver_instancia_brute(file)
+    for file in example_files:
+        print("\nComeçou a rodar o exemplo para o arquivo:")
+        main_brute(file)
