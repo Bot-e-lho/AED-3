@@ -16,7 +16,8 @@ def carregar_arquivo(caminho_arquivo):
         print(f"Erro ao ler o arquivo: {e}")
         return None
 
-def brute_force_tsp(graph, start_v=0):
+def brute_force_tsp(graph):
+    start_v=0
     num_vertices = len(graph)
     vertices = list(range(num_vertices))
     vertices.remove(start_v)
