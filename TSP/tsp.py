@@ -1,6 +1,7 @@
 import time
 import heapq
 import os
+import sys
 
 
 def custo_caminho(caminho, grafo):
@@ -79,7 +80,7 @@ def valor_otimo(nome_arquivo):
     return valor
 
 
-def resolver_instancia_tsp(caminho_arquivo):
+def main_mst(caminho_arquivo):
     grafo = carregar_arquivo(caminho_arquivo)
     valor = valor_otimo(os.path.basename(caminho_arquivo))
 
@@ -97,6 +98,20 @@ def resolver_instancia_tsp(caminho_arquivo):
     print()
 
 
-example_files = ['tsp1_253.txt', 'tsp2_1248.txt', 'tsp3_1194.txt', 'tsp4_7013.txt', 'tsp5_27603.txt']
-for file in example_files:
-    resolver_instancia_tsp(file)
+if __name__ == "__main__":
+    script_dir = os.path.dirname(__file__)
+
+    example_files = [
+        'tsp1_253.txt', 
+        'tsp2_1248.txt', 
+        'tsp3_1194.txt', 
+        'tsp4_7013.txt',
+        'tsp5_27603.txt'
+    ]
+
+    sys.setrecursionlimit(10000)
+
+    for file in example_files:
+        absolute_path = os.path.join(script_dir, file)
+        print("\nComeçou a rodar o exemplo para o arquivo:")
+        main_mst(absolute_path)
