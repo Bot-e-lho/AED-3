@@ -18,17 +18,17 @@ def brute_force_tsp(graph, start_vertex=0):
 
     for permutation in itertools.permutations(vertices):
         current_path_cost = 0
-        k = start_vertex
+        k = start
         
         for vertex in permutation:
             current_path_cost += graph[k][vertex]
             k = vertex
         
-        current_path_cost += graph[k][start_vertex]
+        current_path_cost += graph[k][start]
 
         if current_path_cost < min_path_cost:
             min_path_cost = current_path_cost
-            min_path = (start_vertex,) + permutation + (start_vertex,)
+            min_path = (start,) + permutation + (start,)
 
     return min_path, min_path_cost
 
@@ -47,10 +47,10 @@ def main_brute(caminho_arquivo):
 
 if __name__ == "__main__":
     example_files = [
-        'C:\\Users\\migue\\OneDrive\\Área de Trabalho\\AED-3-main\\AED-3-main\\tsp1_253.txt', 
-        'C:\\Users\\migue\\OneDrive\\Área de Trabalho\\AED-3-main\\AED-3-main\\tsp2_1248.txt', 
-        'C:\\Users\\migue\\OneDrive\\Área de Trabalho\\AED-3-main\\AED-3-main\\tsp3_1194.txt', 
-        'C:\\Users\\migue\\OneDrive\\Área de Trabalho\\AED-3-main\\AED-3-main\\tsp4_7013.txt'
+        'tsp1_253.txt', 
+        'tsp2_1248.txt', 
+        'tsp3_1194.txt', 
+        'tsp4_7013.txt'
     ]
 
     sys.setrecursionlimit(10000)
