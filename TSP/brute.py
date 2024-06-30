@@ -62,7 +62,8 @@ if __name__ == "__main__":
         'tsp1_253.txt', 
         'tsp2_1248.txt', 
         'tsp3_1194.txt', 
-        'tsp4_7013.txt'
+        'tsp4_7013.txt',
+        'tsp5_27603.txt'
     ]
 
     sys.setrecursionlimit(10000)
