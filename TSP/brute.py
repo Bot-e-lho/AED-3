@@ -8,27 +8,27 @@ def carregar_arquivo(caminho_arquivo):
         grafo = [list(map(int, linha.split())) for linha in linhas]
     return grafo
 
-def brute_force_tsp(graph, start_vertex=0):
+def brute_force_tsp(graph, start_v=0):
     num_vertices = len(graph)
     vertices = list(range(num_vertices))
-    vertices.remove(start_vertex)
+    vertices.remove(start_v)
     
     min_path_cost = float('inf')
     min_path = []
 
     for permutation in itertools.permutations(vertices):
         current_path_cost = 0
-        k = start
+        k = start_v
         
         for vertex in permutation:
             current_path_cost += graph[k][vertex]
             k = vertex
         
-        current_path_cost += graph[k][start]
+        current_path_cost += graph[k][start_v]
 
         if current_path_cost < min_path_cost:
             min_path_cost = current_path_cost
-            min_path = (start,) + permutation + (start,)
+            min_path = (start_v,) + permutation + (start_v,)
 
     return min_path, min_path_cost
 
